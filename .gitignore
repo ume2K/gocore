@@ -1,0 +1,22 @@
+# --- Secrets (NIEMALS hochladen!) ---
+.env
+
+# --- Go Binaries & Builds ---
+/bin/
+/dist/
+server
+server.exe
+
+# --- Air (Hot Reload Temp-Dateien) ---
+tmp/
+
+# --- Generierte Assets (Sass & JS Output) ---
+public/css/
+public/js/
+
+# --- Docker ---
+*.tar
+
+# --- OS & Editor Müll ---
+.vscode/
+.idea/

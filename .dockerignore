@@ -1,0 +1,14 @@
+# Git Metadaten
+.git
+.gitignore
+
+# Environment Files (NIEMALS in das Image backen!)
+.env
+
+# Lokale Builds & IDE
+bin/
+tmp/
+.vscode
+.idea
+vendor/
+*.tar

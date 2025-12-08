@@ -1,0 +1,31 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  # Der Befehl zum Bauen (wie im Makefile, aber in einen tmp ordner)
+  cmd = "go build -o ./tmp/main.exe ./cmd/server/main.go"
+  
+  # Der Befehl zum Ausführen nach dem Bauen
+  bin = "./tmp/main.exe"
+  
+  # Dateien, bei denen der Server neu starten soll
+  include_ext = ["go", "tpl", "tmpl", "html"]
+  
+  # Ordner, die ignoriert werden sollen (wichtig für Performance!)
+  exclude_dir = ["assets", "tmp", "vendor", "testdata", "public/css"]
+  
+  # Optional: Wenn du Logs farbig magst
+  log = "air_errors.log"
+
+[log]
+  time = true
+
+[color]
+  main = "magenta"
+  watcher = "cyan"
+  build = "yellow"
+  runner = "green"
+
+[misc]
+  # Beendet den Prozess sauber (wichtig für Graceful Shutdown Tests)
+  clean_on_exit = true

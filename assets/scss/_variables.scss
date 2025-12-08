@@ -1,0 +1,35 @@
+// Colors
+$color-primary:         #567C4B;
+$color-primary-soft:    #6D9462;
+$color-primary-vibrant: #96BB4D;
+$color-brown:           #675d39;
+$color-bg:              #F7F5F0;
+$color-accent:          #DDA15E;
+$color-action:          #BC4749;
+$color-text:            #333333;
+$color-white:           #FFFFFF;
+$color-white-soft:      #FAF3E2;
+
+// Animations
+$transition-fast: 0.18s ease-out;
+
+// Typography
+$font-family-serif: 'Lora', serif;
+$font-family-sans:  "Comfortaa", sans-serif;
+$font-family-flower:  'Indie Flower', cursive;
+$font-family-dancing:  'Dancing Script', cursive;
+
+// Spacing
+$spacer-xs: 0.5rem;  // 8px
+$spacer-s:  1rem;    // 16px
+$spacer-m:  2rem;    // 32px
+$spacer-l:  4rem;    // 64px
+$spacer-xl: 8rem;    // 128px
+
+// Breakpoints
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+
+// Global Values
+$nav-height: 70px;
+$radius-lg: 18px;

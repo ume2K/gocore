@@ -1,0 +1,31 @@
+# --- Stage 1: Builder (Identisch zum Original) ---
+FROM golang:1.25-alpine AS builder
+
+WORKDIR /app
+
+COPY go.mod ./
+
+COPY . .
+
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o server cmd/server/main.go
+
+# --- Stage 2: Final Image (Hier passiert der Trick) ---
+FROM scratch
+
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /app/server /server
+
+# 2. Wir kopieren den normalen views Ordner (damit Go beim Start nicht abstürzt,
+# weil es Templates nicht findet, die im Code referenziert sind)
+COPY --from=builder /app/views /views
+
+# 3. DER TRICK: Wir überschreiben die index.html mit deinem Placeholder!
+# Im Container heißt sie jetzt "index.html", obwohl es "placeholder.html" war.
+COPY views/placeholder.html /views/index.html
+
+EXPOSE 8080
+
+# Wichtig: Production Mode erzwingen, damit er nicht versucht SCSS zu kompilieren
+ENV APP_ENV=production
+
+ENTRYPOINT ["/server"]

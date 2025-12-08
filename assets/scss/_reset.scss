@@ -1,0 +1,50 @@
+@use 'variables' as *;
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: $font-family-sans;
+  background-color: $color-bg;
+  color: $color-text;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: $font-family-dancing;
+  color: $color-text;
+  font-weight: 800;
+  margin: 0 0 1rem;
+  line-height: 1.2;
+}
+
+a {
+  text-decoration: none;
+}
+
+.container {
+  width: 100%;
+  padding-left: $spacer-s;
+  padding-right: $spacer-s;
+  margin-left: auto;
+  margin-right: auto;
+  
+  @media (min-width: $bp-desktop) {
+    max-width: 1200px;
+    padding-left: $spacer-m;
+    padding-right: $spacer-m;
+  }
+}
+
+// A11y Skip Link
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: $color-white;
+  padding: $spacer-s;
+  z-index: 100;
+  &:focus { top: 0; }
+}

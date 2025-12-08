@@ -1,0 +1,12 @@
+// 1. Config and Helpers
+@use 'variables';
+@use 'reset';
+
+// 2. Global Components (used everywhere)
+@use 'components/buttons';
+@use 'components/cards';
+@use 'components/footer';
+@use 'components/nav';
+
+// 3. Page Specifics (loaded once, cached forever)
+@use 'pages/home';

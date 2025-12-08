@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naturhof Rinisgmüende | Frische Produkte direkt vom Hof</title>
+    
+    <meta name="description" content="Täglich frisches Gemüse, Obst und hausgemachte Spezialitäten im Naturhof Rinisgmüende. Ihr Hofladen in der Region für saisonale Qualität.">
+    
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "FarmShop",
+        "name": "Naturhof Rinisgmünde",
+        "image": "https://naturhof-rinisgmuende.ch/assets/img/hero.jpg",
+        "description": "{{ .MetaDescription }}",
+        "address": {    
+            "@type": "PostalAddress",
+            "streetAddress": "Rheinhofstrasse 16",
+            "addressLocality": "Altenrhein",
+            "postalCode": "9423",
+            "addressCountry": "CH"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 47.2938,
+            "longitude": 9.3338
+        },
+        "openingHoursSpecification": [
+            {{ range $i, $h := .OpeningHours }}
+            {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "{{ $h.DaySchema }}",
+            "opens": "{{ $h.Open }}",
+            "closes": "{{ $h.Close }}"
+            }{{ if not (lastItem $i $.OpeningHours) }},{{ end }}
+            {{ end }}
+        ],
+        "url": "https://naturhof-rinisgmuende.ch",
+        "telephone": "+41441234567"
+        }
+    </script>
+</head>
+<body>
+
+    {{ template "nav" . }}
+
+    <section class="hero">
+        <div class="container reveal">
+            <h1>Naturhof Rinisgmünde</h1>
+            <p>Frisch, regional & mit Herz<br />alles direkt ab Hof.</p>
+            <a href="/besuch" class="btn-primary">Besuche Uns</a>
+        </div>
+        <div class="arrow" id="arrow">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                height="24"
+                width="24"
+            >
+                <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M0.729984 5.756544L11.632512 18.078143999999998C11.827487999999999 18.29856 12.171456 18.29856 12.366527999999999 18.078143999999998L23.270016 5.756544"
+                    stroke-width="2"></path>
+            </svg>
+        </div>
+    </section>
+
+    <section class="content-1">
+        <img src="assets/img/hero.jpg" alt="Unser Hof" class="reveal" />
+        <div class="text-container">
+            <h1 class="title text-bold indie-flower-regular reveal">Wer sind wir?</h1>
+            <div class="text reveal">
+                Wir sind ein kleiner, familiärer Biohof inmitten der
+                Ostschweizer Natur. Seit Generationen bewirtschaften wir unsere
+                Felder nachhaltig und mit viel Herzblut.
+                <br><br> <strong>Uns steht der respektvolle Umgang mit Tier und Umwelt an
+                oberster Stelle.</strong>
+            </div>
+        </div>
+    </section>
+    <section class="content-2 image-2">
+        <h1 class="title text-bold indie-flower-regular">Unsere Produkte</h1>
+        <div class="grid">
+            <article class="card">
+                <h2>Eier vom Hof</h2>
+                <p>Frisch gelegt, direkt vom Stall</p>
+            </article>
+            <article class="card">
+                <h2>Apfelsaft</h2>
+                <p>Aus ungespritzten Äpfeln, naturtrüb</p>
+            </article>
+            <article class="card">
+                <h2>Eier vom Hof</h2>
+                <p>Frisch gelegt, direkt vom Stall</p>
+            </article>
+            <article class="card">
+                <h2>Apfelsaft</h2>
+                <p>Aus ungespritzten Äpfeln, naturtrüb</p>
+            </article>
+        </div>
+        <a href="/bestellen" class="link-button">Online Hofladen</a>
+    </section>
+
+     <script>
+        const observerOptions = {
+                threshold: 0.1, // Trigger when 10% of element is visible
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+     </script>
+
+     <script src="/assets/js/main.js" defer></script>
+</body>
+</html>
