@@ -60,14 +60,14 @@
   font-size: 1.1rem;
 }
 
-.app-nav-btn.is-active {
+.app-nav-btn.active {
   background: linear-gradient(135deg, $color-primary, $color-primary-soft);
   color: #fffdf7;
   box-shadow: 0 9px 22px rgba(49, 83, 41, 0.35);
   transform: translateY(-2px);
 }
 
-.app-nav-btn.is-active::after {
+.app-nav-btn.active::after {
   content: "";
   position: absolute;
   bottom: -0.45rem;

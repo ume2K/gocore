@@ -6,7 +6,7 @@ tmp_dir = "tmp"
   cmd = "go build -o ./tmp/main.exe ./cmd/server/main.go"
   
   # Der Befehl zum Ausführen nach dem Bauen
-  bin = "./tmp/main.exe"
+  entrypoint = "./tmp/main.exe"
   
   # Dateien, bei denen der Server neu starten soll
   include_ext = ["go", "tpl", "tmpl", "html"]

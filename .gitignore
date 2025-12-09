@@ -4,7 +4,7 @@
 # --- Go Binaries & Builds ---
 /bin/
 /dist/
-server
+bin/server
 server.exe
 
 # --- Air (Hot Reload Temp-Dateien) ---

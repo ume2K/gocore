@@ -12,11 +12,7 @@ export function initStickyHeader() {
   let isMouseTop = false;
   let rafPending = false;
 
-  // Die eigentliche DOM-Manipulation (Render)
   const render = () => {
-    // Logik:
-    // 1. Highlighted: Immer wenn die Maus oben ist.
-    // 2. Collapsed: Nur wenn gescrollt UND die Maus NICHT oben ist.
     const shouldHighlight = isMouseTop;
     const shouldCollapse = isScrolled && !isMouseTop;
 
@@ -27,7 +23,6 @@ export function initStickyHeader() {
     rafPending = false;
   };
 
-  // Hilfsfunktion: Fordert ein Update beim nächsten Frame an
   const requestUpdate = () => {
     if (!rafPending) {
       requestAnimationFrame(render);
@@ -35,7 +30,6 @@ export function initStickyHeader() {
     }
   };
 
-  // Event Listener: Scroll
   window.addEventListener(
     "scroll",
     () => {
@@ -48,12 +42,10 @@ export function initStickyHeader() {
     { passive: true }
   );
 
-  // Event Listener: Mousemove
   window.addEventListener(
     "mousemove",
     (event) => {
       const currentlyTop = event.clientY <= MOUSE_THRESHOLD;
-      // Nur updaten, wenn sich der Status wirklich geändert hat (Performance!)
       if (isMouseTop !== currentlyTop) {
         isMouseTop = currentlyTop;
         requestUpdate();
@@ -62,6 +54,5 @@ export function initStickyHeader() {
     { passive: true }
   );
   
-  // Initialer Aufruf, um Status beim Laden zu setzen
   requestUpdate();
 }

@@ -1,11 +1,13 @@
 package framework
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"mime"
 	"net/http"
 	"strings"
@@ -115,15 +117,20 @@ func (c *Context) Query(key string) string {
 }
 
 func (c *Context) HTML(code int, name string, data any) {
-	c.W.Header().Set("Content-Type", "text/html; charset=utf-8")
-	c.W.WriteHeader(code)
-
 	if c.templates == nil {
 		http.Error(c.W, "Templates not loaded", http.StatusInternalServerError)
 		return
 	}
 
-	if err := c.templates.ExecuteTemplate(c.W, name, data); err != nil {
-		http.Error(c.W, err.Error(), http.StatusInternalServerError)
+	var buf bytes.Buffer
+	if err := c.templates.ExecuteTemplate(&buf, name, data); err != nil {
+		log.Printf("❌ Template Rendering Error (%s): %v", name, err)
+
+		http.Error(c.W, "Template Error: "+err.Error(), http.StatusInternalServerError)
+		return
 	}
+
+	c.W.Header().Set("Content-Type", "text/html; charset=utf-8")
+	c.W.WriteHeader(code)
+	buf.WriteTo(c.W)
 }
