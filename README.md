@@ -36,44 +36,6 @@ gocore/
 └── .air.toml           # Hot-reload configuration
 ```
 
-Hier ist der komplette Inhalt für deine README.md, fertig formatiert zum Kopieren.Markdown# GoCore Framework
-
-A lightweight, opinionated Go web framework built for speed and developer experience. It features a custom high-performance router, middleware support, and a fully integrated **Zero-Config Asset Pipeline** for SCSS and JavaScript.
-
-## 🚀 Key Features
-
-* **Custom Trie-Router:** Fast, efficient routing with support for dynamic parameters (`/users/:id`), groups (`/api/v1`), and custom 404 handling.
-* **Integrated Asset Pipeline:** No Webpack/Vite required. The Go server orchestrates asset compilation directly using `sass` and `esbuild`.
-* **Smart Hot-Reloading:**
-    * **Go Code:** Watched by [Air](https://github.com/air-verse/air). Restarts the binary on change.
-    * **Assets (SCSS/JS):** Watched by internal Go routines using `fsnotify` (recursive). Recompiles instantly *without* restarting the server.
-* **Production Ready:** Docker support with Multi-Stage builds (assets compiled at build time).
-* **Context-Based Handlers:** Clean API `func(c *framework.Context)` for handling JSON, HTML, and Request binding.
-
-## 📂 Architecture Overview
-
-### Directory Structure
-
-```text
-gocore/
-├── assets/             # Source files for assets
-│   ├── js/             # Modern ES6+ JavaScript (bundled via esbuild)
-│   └── scss/           # SCSS styles (compiled via dart-sass)
-├── cmd/
-│   └── server/         # Entry point (main.go)
-├── pkg/
-│   └── framework/      # The core framework logic (Router, Context, Compiler)
-├── public/             # Served statically at /assets
-│   ├── css/            # Generated CSS (do not edit)
-│   ├── js/             # Generated JS (do not edit)
-│   └── img/            # Static images (WebP recommended)
-├── views/              # HTML Templates (Go html/template)
-│   └── templates/      # Partials (nav, footer, head)
-├── Dockerfile          # Multi-stage production build
-├── Makefile            # Command shortcuts
-└── .air.toml           # Hot-reload configuration
-```
-
 ### The Asset Pipeline Logic
 Unlike traditional setups where a Node.js server runs alongside Go, **GoCore controls the compilers directly**:
 
@@ -176,7 +138,9 @@ r.SetNotFound(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 
 ### Templates
 Templates are loaded globally from views/*.html.
+
 Define Partials: Use `{{ define "nav" }} ... {{ end }}` inside views/templates/.
+
 Include Partials: Use `{{ template "nav" . }}` (Don't forget the dot to pass context!).
 
 License MIT
