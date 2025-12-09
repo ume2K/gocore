@@ -1,55 +1,8 @@
 <!DOCTYPE html>
 <html lang="de-CH">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naturhof Rinisgmüende | Frische Produkte direkt vom Hof</title>
-    
-    <meta name="description" content="Täglich frisches Gemüse, Obst und hausgemachte Spezialitäten im Naturhof Rinisgmüende. Ihr Hofladen in der Region für saisonale Qualität.">
-    
-    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="/assets/css/main.css">
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "FarmShop",
-        "name": "Naturhof Rinisgmünde",
-        "image": "https://naturhof-rinisgmuende.ch/assets/img/hero.jpg",
-        "description": "{{ .MetaDescription }}",
-        "address": {    
-            "@type": "PostalAddress",
-            "streetAddress": "Rheinhofstrasse 16",
-            "addressLocality": "Altenrhein",
-            "postalCode": "9423",
-            "addressCountry": "CH"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 47.2938,
-            "longitude": 9.3338
-        },
-        "openingHoursSpecification": [
-            {{ range $i, $h := .OpeningHours }}
-            {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "{{ $h.DaySchema }}",
-            "opens": "{{ $h.Open }}",
-            "closes": "{{ $h.Close }}"
-            }{{ if not (lastItem $i $.OpeningHours) }},{{ end }}
-            {{ end }}
-        ],
-        "url": "https://naturhof-rinisgmuende.ch",
-        "telephone": "+41441234567"
-        }
-    </script>
-</head>
+    {{ template "head" . }}
+
 <body>
 
     {{ template "nav" . }}

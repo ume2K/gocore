@@ -4,55 +4,52 @@
     <img class="logo" src="assets/img/icon_small.png" />
   </div>
   <nav class="navigations">
-    <a href="/" class="link underline-hover" data-route="/">🏡 Startseite</a>
-    <a href="/tiere" class="link underline-hover" data-route="/tiere">🐂 Unsere Tiere</a>
-    <a href="/eventraum" class="link underline-hover" data-route="/eventraum">🌟 Eventraum</a>
-    <a href="/besuch" class="link underline-hover" data-route="/besuch">📍 Besuch & Hofladen</a>
+    <a href="/" class="link underline-hover" data-route="/" aria-selected="true">🏡 Startseite</a>
+    <a href="/tiere" class="link underline-hover" data-route="/tiere" aria-selected="false">🐂 Unsere Tiere</a>
+    <a href="/eventraum" class="link underline-hover" data-route="/eventraum" aria-selected="false">🌟 Eventraum</a>
+    <a href="/besuch" class="link underline-hover" data-route="/besuch" aria-selected="false">📍 Besuch & Hofladen</a>
   </nav>
 </header>
 
 <nav class="app-nav" aria-label="App-Navigation">
   <div class="app-nav-inner" role="tablist">
-    <button
-      type="button"
+    <a
+      href="/"
       class="app-nav-btn js-tab-trigger is-active"
       data-route="/"
-      aria-label="Home"
       aria-selected="true"
     >
       <span class="icon" aria-hidden="true">🏡</span>
       <span>Home</span>
-    </button>
-    <button
-      type="button"
+    </a>
+    <a
+      href="/tiere"
       class="app-nav-btn js-tab-trigger"
       data-route="/tiere"
-      aria-label="Unsere Tiere"
       aria-selected="false"
     >
       <span class="icon" aria-hidden="true">🐂</span>
       <span>Tiere</span>
-    </button>
-    <button
+    </a>
+    <a
+      href="/eventraum"
       type="button"
       class="app-nav-btn js-tab-trigger"
       data-route="/eventraum"
-      aria-label="Eventraum reservieren"
       aria-selected="false"
     >
       <span class="icon" aria-hidden="true">🌟</span>
       <span>Events</span>
-    </button>
-    <button
-      type="button"
+    </a>
+    <a
+      href="/besuch"
       class="app-nav-btn js-tab-trigger"
       data-route="/besuch"
-      aria-label="Besuch & Öffnungszeiten"
       aria-selected="false"
     >
       <span class="icon" aria-hidden="true">📍</span>
       <span>Besuch</span>
-    </button>
+    </a>
   </div>
 </nav>
 {{ end }}

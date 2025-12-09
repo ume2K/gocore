@@ -46,15 +46,14 @@ func (c *SCSSCompiler) Compile() error {
 		return err
 	}
 
-	log.Println("SCSS compiled successfully")
+	log.Println("✅ SCSS compiled successfully")
 	return nil
 }
 
 func (c *SCSSCompiler) Watch() {
-	// 1. Absoluten Pfad ermitteln (hilft gegen Pfad-Probleme unter Windows)
 	absPath, err := filepath.Abs(c.config.SourceDir)
 	if err != nil {
-		log.Printf("❌ Konnte absoluten Pfad nicht ermitteln: %v", err)
+		log.Printf("❌ Could not resolve path: %v", err)
 		return
 	}
 
@@ -69,44 +68,36 @@ func (c *SCSSCompiler) Watch() {
 		if err != nil {
 			return err
 		}
-		// Nur Verzeichnisse watchen
 		if info.IsDir() {
 			err = watcher.Add(path)
 			if err != nil {
-				log.Printf("❌ Fehler beim Watchen von %s: %v", path, err)
-			} else {
-				// Debug-Output, damit du siehst, dass es klappt
-				log.Printf("👀 Watching Directory: %s", path)
+				// Fehler wollen wir sehen!
+				log.Printf("❌ Error watching %s: %v", path, err)
 			}
 		}
 		return nil
 	})
 
 	if err != nil {
-		log.Printf("❌ Fehler beim Scannen der Ordner: %v", err)
+		log.Printf("❌ Error scanning the directories: %v", err)
 	}
 
-	log.Println("✅ SCSS Watcher läuft und wartet auf Änderungen...")
+	log.Println("SCSS watcher active (waiting for changes..)")
 
-	// 3. Die Endlos-Schleife (Blockierend)
-	// Da du in main.go "go scss.Watch()" aufrufst, ist blockieren hier okay.
 	for {
 		select {
 		case event, ok := <-watcher.Events:
 			if !ok {
 				return
 			}
-
-			// Ignoriere CHMOD (passiert oft bei Editoren beim Speichern)
 			if event.Op&fsnotify.Chmod == fsnotify.Chmod {
 				continue
 			}
 
-			// Wenn ein NEUER Ordner erstellt wird, müssen wir ihn auch watchen
 			if event.Op&fsnotify.Create == fsnotify.Create {
 				info, err := os.Stat(event.Name)
 				if err == nil && info.IsDir() {
-					log.Printf("📂 Neuer Ordner erkannt: %s", event.Name)
+					log.Printf("📂 New directory found: %s", event.Name)
 					watcher.Add(event.Name)
 				}
 			}
@@ -114,7 +105,7 @@ func (c *SCSSCompiler) Watch() {
 			// Nur bei .scss oder .css Dateien kompilieren
 			ext := filepath.Ext(event.Name)
 			if ext == ".scss" || ext == ".css" {
-				log.Printf("⚡ Änderung erkannt in: %s", filepath.Base(event.Name))
+				log.Printf("⚡ Changes found in: %s", filepath.Base(event.Name))
 
 				// Optional: Kleines Debouncing (damit er nicht 2x feuert),
 				// aber meistens reicht es so.
