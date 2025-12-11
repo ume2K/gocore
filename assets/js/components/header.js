@@ -1,7 +1,7 @@
 export function initStickyHeader() {
   const header = document.getElementById("gmuende-header");
   const arrow = document.getElementById("arrow");
-  if (!header && !arrow) return;
+  if (!header) return;
 
   // Konfiguration
   const SCROLL_THRESHOLD = 50;
@@ -18,7 +18,7 @@ export function initStickyHeader() {
 
     header.classList.toggle("highlighted", shouldHighlight);
     header.classList.toggle("collapsed", shouldCollapse);
-    arrow.classList.toggle("hide", isScrolled);    
+    arrow?.classList.toggle("hide", isScrolled);    
 
     rafPending = false;
   };

@@ -1,0 +1,33 @@
+@use '../variables' as *;
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: $spacer-m 0;
+}
+
+.hero-home-home {
+    position: relative;
+    height: calc(100vh - $nav-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+
+    .arrow {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%); // Zentrieren
+    color: var(--color-text-light);
+    z-index: 2;
+    animation: arrow-bounce 2s infinite;
+
+     &.hide {
+            opacity: 0;
+        }  
+    }
+}
