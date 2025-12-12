@@ -1,5 +1,5 @@
-export function initStickyHeader() {
-  const header = document.getElementById("gmuende-header");
+export function initDesktopNav() {
+  const header = document.getElementById("desktop-nav");
   const arrow = document.getElementById("arrow");
   if (!header) return;
 

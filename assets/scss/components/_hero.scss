@@ -2,18 +2,23 @@
 
 .hero {
     --hero-bg: url('/assets/img/home.jpg');
-    --hero-height: 100vh;
+    --hero-height: 100dvh;
     --parallax-offset: 0px;
 
     position: relative;
-    height: calc(var(--hero-height) - #{$nav-height}); 
+    height: calc(var(--hero-height) - #{$nav-height});
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: $color-white-soft;
     
-    overflow: hidden; 
+    overflow: hidden;
+    border-bottom: none;
+
+    @media (min-width: 768px) {
+        height: var(--hero-height);
+    }
 
     &::before {
         content: '';

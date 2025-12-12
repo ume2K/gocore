@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 .reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -7,4 +9,38 @@
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
+}
+
+.underline-hover {
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: $color-white-soft;
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        &::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    }
+
+    &.active {
+        color: $color-primary-vibrant;
+
+        &::after {
+            background-color: $color-primary-vibrant;
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    }
 }

@@ -2,7 +2,7 @@
 
 .arrow {
 position: absolute;
-bottom: 2rem;
+bottom: 10dvh;
 left: 50%;
 transform: translateX(-50%);
 color: $color-white-soft;
@@ -15,10 +15,45 @@ animation: arrow-bounce 2s infinite;
 }
 
 .content-1 {
-    padding: 3rem 1.5rem;
+    --corner-height: 5dvh;
+
+    position: relative;
+    padding: 1rem 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
+
+    &::before {
+        content: '';
+        position: absolute;
+        
+        top: calc(-1 * var(--corner-height)); 
+        left: 0;
+        width: 100%;
+        
+        height: var(--corner-height);
+        
+        background-color: $color-bg;
+        border-radius: 50px 50px 0 0;
+        z-index: 10;
+        box-shadow: 0 -8px 8px rgba(0, 0, 0, .1);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        
+        bottom: calc(-1 * var(--corner-height)); 
+        left: 0;
+        width: 100%;
+        
+        height: var(--corner-height);
+        
+        background-color: $color-bg;
+        border-radius: 0 0 50px 50px;
+        z-index: 10;
+        box-shadow: 0 8px 8px rgba(0, 0, 0, .1);
+    }
 
     img {
         width: 100%;
@@ -46,7 +81,6 @@ animation: arrow-bounce 2s infinite;
     }
 }
 
-// Section "Produkte" mit Holz-Hintergrund
 .content-2 {
     position: relative;
     padding: 4rem 1.5rem;
@@ -55,7 +89,6 @@ animation: arrow-bounce 2s infinite;
     align-items: center;
     gap: 2rem;
     
-    // Background Image Setup
     background-image: url('/assets/img/holz.jpeg');
     background-size: cover;
     background-position: center;
@@ -68,7 +101,6 @@ animation: arrow-bounce 2s infinite;
         z-index: 0;
     }
     
-    // Damit der Inhalt über dem Overlay liegt
     > * { position: relative; z-index: 1; }
 
     .title {
@@ -129,15 +161,14 @@ animation: arrow-bounce 2s infinite;
     }
 
     .content-1 {
-        // Jetzt Grid Layout aktivieren
         display: grid;
-        grid-template-columns: 1fr 1fr; // 50% Bild, 50% Text
+        grid-template-columns: 1fr 1fr;
         align-items: center;
         gap: 4rem;
-        padding: 5rem 10%; // Mehr Rand links/rechts
+        padding: 1.5rem 10% 3rem;
         
         img {
-            height: 500px; // Fixe Höhe für Ästhetik
+            height: 500px;
         }
     }
 

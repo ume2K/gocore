@@ -1,9 +1,9 @@
 import { initScrollReveal } from './utils.js';
-import { initStickyHeader } from './components/header.js';
+import { initDesktopNav } from './components/nav.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
-    initStickyHeader();
+    initDesktopNav();
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -34,7 +34,7 @@ document.addEventListener('scroll', () => {
     const scrollPosition = window.scrollY;
     
     if (scrollPosition > hero.offsetHeight) return;
-
+    
     const speed = 0.5;
     const offset = scrollPosition * speed;
 

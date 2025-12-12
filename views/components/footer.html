@@ -1,39 +1,47 @@
-{{ define "templates/footer.html" }}
+{{ define "footer" }}
 <footer>
-    <div class="contact">
-    <div class="grid">
-        <img src="/img/logo_full.jpg" />
+    <div class="grid container">
         <div class="opening-hours">
-        <span class="title text-bold">Unsere Öffnungszeiten - Hofladen</span
-        >
-        <div>
-            <span
-            >Montag bis Freitag&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 07:00 bis
-            19:00 Uhr</span
-            >
-            <span
-            >Samstag&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;07:00 bis 17:00
-            Uhr</span
-            >
+            <h3 class="title">Unsere Öffnungszeiten</h3>
+            <ul class="hours-list">
+                {{ range .OpeningHours }}
+                <li>
+                    <span class="day">{{ .DayLabel }}</span>
+                    <span class="time">{{ .Open }} bis {{ .Close }} Uhr</span>
+                </li>
+                {{ end }}
+                {{ if not .OpeningHours }}
+                <li><span>Mo - Fr</span> <span>07:00 bis 19:00 Uhr</span></li>
+                <li><span>Samstag</span> <span>07:00 bis 17:00 Uhr</span></li>
+                {{ end }}
+            </ul>
         </div>
-        </div>
+
         <div class="information">
-        <span class="title text-bold">So findest du uns</span>
-        <div>
-            <span>Familie Keel</span>
-            <span>Altenrhein 19</span>
-            <span>Altenrhein 9320</span>
+            <h3 class="title">So findest du uns</h3>
+            <address>
+                Familie Keel<br>
+                Altenrhein 19<br>
+                9320 Altenrhein<br>
+                Schweiz
+            </address>
+            
+            <div class="contact-links">
+                <a href="tel:+41763361831" class="underline-hover">
+                    +41 76 336 18 31
+                </a>
+                <a href="mailto:naturhof@rinisgmuende.ch" class="underline-hover">
+                    naturhof@rinisgmuende.ch
+                </a>
+            </div>
         </div>
-        <div>
-            <span>+41 76 336 18 31</span>
-        </div>
-        <div>
-            <span>naturhof@rinisgmuende.ch</span>
-        </div>
+
+        <div class="footer-logo-wrapper">
+            <img src="/assets/img/logo_full.jpg" alt="Naturhof Logo" loading="lazy" />
         </div>
     </div>
-    </div>
-    <div class="copyright">© 2025 Naturhof Rinisgmuende</div>
+    <div class="copyright">
+    &copy; {{ .CurrentYear }} Naturhof Rinisgmuende
+</div>
 </footer>
 {{ end }}

@@ -113,71 +113,37 @@
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
     }
-}
+  }
 
-.logo-container {
-    cursor: pointer;
-    background-color: $color-white-soft;
-    padding: 0.15rem;
-    border-radius: 50%;
-    width: 2.75rem;
-    height: 2.75rem;
+  .logo-container {
+      cursor: pointer;
+      background-color: $color-white-soft;
+      padding: 0.15rem;
+      border-radius: 50%;
+      width: 2.75rem;
+      height: 2.75rem;
 
-    .logo {
-        width: 2.75rem;
-        height: 2.75rem;
-        object-fit: contain;
-    }
-}
+      .logo {
+          width: 2.75rem;
+          height: 2.75rem;
+          object-fit: contain;
+      }
+  }
 
-.navigations {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    user-select: none;
+  .navigations {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      user-select: none;
+  }
 
     .link {
-        display: inline-block;
-        position: relative;
-        color: $color-white-soft;
-        font-size: 1.125rem;
-        font-weight: 500;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 
-                 0 2px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .underline-hover {
-        &::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            transform: scaleX(0);
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: $color-white-soft;
-            transform-origin: bottom right;
-            transition: transform 0.25s ease-out;
-        }
-
-        &:hover {
-            cursor: pointer;
-
-            &::after {
-                transform: scaleX(1);
-                transform-origin: bottom left;
-            }
-        }
-
-        &.active {
-            color: $color-primary-vibrant;
-
-            &::after {
-                background-color: $color-primary-vibrant;
-                transform: scaleX(1);
-                transform-origin: bottom left;
-            }
-        }
-    }
-}
+    display: inline-block;
+    position: relative;
+    color: $color-white-soft;
+    font-size: 1.125rem;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 
+            0 2px 8px rgba(0, 0, 0, 0.3);
+  }
 }
