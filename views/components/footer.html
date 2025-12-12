@@ -7,7 +7,13 @@
                 {{ range .OpeningHours }}
                 <li>
                     <span class="day">{{ .DayLabel }}</span>
-                    <span class="time">{{ .Open }} bis {{ .Close }} Uhr</span>
+                    <span class="time">
+                        {{ if .IsClosed }}
+                            Geschlossen
+                        {{ else }}
+                            {{ .Open }} bis {{ .Close }} Uhr
+                        {{ end }}
+                    </span>
                 </li>
                 {{ end }}
                 {{ if not .OpeningHours }}
@@ -22,8 +28,7 @@
             <address>
                 Familie Keel<br>
                 Altenrhein 19<br>
-                9320 Altenrhein<br>
-                Schweiz
+                9320 Altenrhein
             </address>
             
             <div class="contact-links">

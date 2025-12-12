@@ -49,40 +49,35 @@ a {
   &:focus { top: 0; }
 }
 
+// Scrollbar
+
+html {
+  scrollbar-width: thin; 
+  scrollbar-color: color-mix(in srgb, rgb(103, 93, 57), transparent 40%) $color-bg;
+}
+
 ::-webkit-scrollbar {
     width: 0.5rem;
 }
 
-// Scrollbar
-
-:root {
-  --color-brown: #{$color-brown};
-  --color-bg: #{$color-bg};
-}
-
-html {
-  scrollbar-width: thin; 
-  scrollbar-color: color-mix(in srgb, var(--color-brown), transparent 40%) var(--color-bg);
-}
-
 /* Track */
 ::-webkit-scrollbar-track {
-  background-color: var(--color-background);
+  background-color: $color-bg;
 }
 
 /* Handle (Thumb) */
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: color-mix(in srgb, var(--color-brown), transparent 40%);
+  background-color: color-mix(in srgb, rgb(103, 93, 57), transparent 40%);
   
-  border: 2px solid var(--color-bg);
+  border: 2px solid $color-bg;
   background-clip: padding-box;
 }
 
 // Handle on hover
 ::-webkit-scrollbar-thumb:hover {
-  background-color: color-mix(in srgb, var(--color-brown), transparent 10%);
+  background-color: color-mix(in srgb, rgb(103, 93, 57), transparent 10%);
 
-  border: 2px solid var(--color-bg);
+  border: 2px solid $color-bg;
   background-clip: padding-box;
 }

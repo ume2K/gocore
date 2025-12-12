@@ -83,7 +83,7 @@
   box-shadow: 0 6px 14px rgba(49, 83, 41, 0.25);
 }
 
-@media (min-width: 1024px) {
+@media (min-width: $bp-mobile) {
   
   .app-nav {
     display: none;

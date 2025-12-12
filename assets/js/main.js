@@ -32,11 +32,19 @@ document.addEventListener('scroll', () => {
     if (!hero) return;
 
     const scrollPosition = window.scrollY;
-    
-    if (scrollPosition > hero.offsetHeight) return;
-    
-    const speed = 0.5;
-    const offset = scrollPosition * speed;
+    const heroHeight = hero.offsetHeight;
 
+    if (scrollPosition > (heroHeight + 100)) return;
+
+    const speed = 0.5;
+    const offset = scrollPosition * speed; 
     hero.style.setProperty('--parallax-offset', `${offset}px`);
+
+    // Konfiguration
+    const blurFactor = 60; // Höherer Wert = langsamerer Blur-Anstieg
+    const maxBlur = 10;    // Maximaler Blur in Pixeln (z.B. 15px)
+
+    const blurAmount = Math.min(scrollPosition / blurFactor, maxBlur);
+
+    hero.style.setProperty('--parallax-blur', `${blurAmount}px`);
 });

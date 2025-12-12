@@ -8,7 +8,7 @@ footer {
     background-color: $color-brown;
     color: $color-white-soft;
 
-    @media (min-width: 768px) {
+    @media (min-width: $bp-mobile) {
         padding-bottom: 0;
     }
 
@@ -16,8 +16,10 @@ footer {
         display: grid;
         gap: 2rem;
         grid-template-columns: 1fr;
+        padding-bottom: 1.25rem;
+        padding-top: 1rem;
 
-        @media (min-width: 768px) {
+        @media (min-width: $bp-mobile) {
             grid-template-columns: 1fr 1fr 1fr;
             align-items: start;
             gap: 4rem;
@@ -26,7 +28,7 @@ footer {
 
     .title {
         font-family: $font-family-dancing;
-        font-size: 1.5rem;
+        font-size: 1.625rem;
         color: $color-primary-vibrant;
     }
 
@@ -56,6 +58,7 @@ footer {
 
             .time {
                 font-feature-settings: "tnum";
+                text-align: end;
             }
         }
     }
@@ -63,12 +66,12 @@ footer {
     .information {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
 
         address {
             font-style: normal;
             line-height: 1.6;
             opacity: 0.9;
+            margin-bottom: 1rem;
         }
 
         .contact-links {
@@ -88,7 +91,7 @@ footer {
         display: flex;
         justify-content: center;
         
-        @media (min-width: 768px) {
+        @media (min-width: $bp-mobile) {
             justify-content: flex-end;
         }
 
@@ -96,7 +99,7 @@ footer {
             height: auto;
             max-height: 200px;
             width: 100%;
-            max-width: 250px;
+            max-width: 200px;
             object-fit: cover;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -108,5 +111,19 @@ footer {
         padding: 1rem;
         font-size: 0.9rem;
         opacity: 0.9;
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            
+            top: 0; 
+            left: 30%;
+            width: 40%;
+            
+            height: 1px;
+            
+            background-color: rgba(250, 243, 226, 0.6);
+        }
     }
 }

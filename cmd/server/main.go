@@ -26,6 +26,7 @@ type OpeningHour struct {
 	DaySchema string
 	Open      string
 	Close     string
+	IsClosed  bool
 }
 
 type PageData struct {
@@ -53,8 +54,9 @@ func NewPageData(title string) PageData {
 			{
 				DayLabel:  "Sonntag",
 				DaySchema: "Sunday",
-				Open:      "Geschlossen",
+				Open:      "",
 				Close:     "",
+				IsClosed:  true,
 			},
 		},
 	}
