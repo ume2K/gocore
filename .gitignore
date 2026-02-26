@@ -1,0 +1,11 @@
+.env
+/bin/
+/dist/
+bin/server
+server.exe
+tmp/
+public/css/
+public/js/
+*.tar
+.vscode/
+.idea/
