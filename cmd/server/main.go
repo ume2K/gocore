@@ -22,7 +22,7 @@ func main() {
 	isDev := framework.GetEnv("APP_ENV", "development") == "development"
 
 	if isDev {
-		fmt.Println("GoCore Framework – Development Mode")
+		fmt.Println("GoCore Framework - Development Mode")
 		log.Println("Initializing SCSS Compiler...")
 		scss := framework.NewSCSSCompiler(framework.SCSSConfig{
 			SourceDir: "assets/scss",
@@ -37,6 +37,9 @@ func main() {
 		js := framework.NewJSCompiler(framework.JSConfig{
 			SourceDir: "assets/js",
 			OutputDir: "public/js",
+			EntryPoints: []string{
+				"main.js",
+			},
 		})
 		if err := js.Bundle(); err != nil {
 			log.Println("JS Bundle failed")
@@ -50,12 +53,15 @@ func main() {
 	r.Use(framework.Logger)
 	r.Use(framework.Recovery)
 
-	r.LoadHTMLGlob("views/*.html")
-	r.LoadHTMLGlob("views/components/*.html")
+	r.LoadHTMLGlob("views")
 	r.Static("/assets", "./public")
 
 	r.GET("/", func(c *framework.Context) {
 		c.HTML(http.StatusOK, "index.html", PageData{Title: "GoCore"})
+	})
+
+	r.GET("/episoden/vietnam", func(c *framework.Context) {
+		c.HTML(http.StatusOK, "episodes/vietnam/vietnam.html", PageData{Title: "Vietnam"})
 	})
 
 	r.GET("/api/health", func(c *framework.Context) {

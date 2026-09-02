@@ -14,8 +14,8 @@ import (
 )
 
 type Context struct {
-	W         http.ResponseWriter
-	R         *http.Request
+	Writer    http.ResponseWriter
+	Request   *http.Request
 	templates *template.Template
 }
 
@@ -25,38 +25,38 @@ func NewContext(w http.ResponseWriter, r *http.Request) *Context {
 		tmpl = t
 	}
 	return &Context{
-		W:         w,
-		R:         r,
+		Writer:    w,
+		Request:   r,
 		templates: tmpl,
 	}
 }
 
-func (c *Context) Status(code int) {
-	c.W.WriteHeader(code)
+func (context *Context) Status(code int) {
+	context.Writer.WriteHeader(code)
 }
 
-func (c *Context) JSON(code int, v any) error {
-	c.W.Header().Set("Content-Type", "application/json")
-	c.W.WriteHeader(code)
-	return json.NewEncoder(c.W).Encode(v)
+func (context *Context) JSON(code int, v any) error {
+	context.Writer.Header().Set("Content-Type", "application/json")
+	context.Writer.WriteHeader(code)
+	return json.NewEncoder(context.Writer).Encode(v)
 }
 
-func (c *Context) Param(key string) string {
-	val, ok := c.R.Context().Value(key).(string)
+func (context *Context) Param(key string) string {
+	val, ok := context.Request.Context().Value(key).(string)
 	if !ok {
 		return ""
 	}
 	return val
 }
 
-func (c *Context) BindJSON(v any) error {
-	return json.NewDecoder(c.R.Body).Decode(v)
+func (context *Context) BindJSON(v any) error {
+	return json.NewDecoder(context.Request.Body).Decode(v)
 }
 
-func (c *Context) BindJSONStrict(v any) error {
-	ct := c.R.Header.Get("Content-Type")
-	if ct != "" {
-		mediaType, _, err := mime.ParseMediaType(ct)
+func (context *Context) BindJSONStrict(v any) error {
+	contentType := context.Request.Header.Get("Content-Type")
+	if contentType != "" {
+		mediaType, _, err := mime.ParseMediaType(contentType)
 		if err != nil || mediaType != "application/json" {
 			return &HTTPError{Code: http.StatusUnsupportedMediaType, Message: "Content-Type must be application/json"}
 		}
@@ -64,8 +64,8 @@ func (c *Context) BindJSONStrict(v any) error {
 		return &HTTPError{Code: http.StatusUnsupportedMediaType, Message: "Content-Type header is missing"}
 	}
 
-	c.R.Body = http.MaxBytesReader(c.W, c.R.Body, 1048576)
-	dec := json.NewDecoder(c.R.Body)
+	context.Request.Body = http.MaxBytesReader(context.Writer, context.Request.Body, 1048576)
+	dec := json.NewDecoder(context.Request.Body)
 	dec.DisallowUnknownFields()
 
 	err := dec.Decode(v)
@@ -106,22 +106,22 @@ func (e *HTTPError) Error() string {
 	return e.Message
 }
 
-func (c *Context) Query(key string) string {
-	return c.R.URL.Query().Get(key)
+func (context *Context) Query(key string) string {
+	return context.Request.URL.Query().Get(key)
 }
 
-func (c *Context) HTML(code int, name string, data any) {
-	if c.templates == nil {
-		http.Error(c.W, "Templates not loaded", http.StatusInternalServerError)
+func (context *Context) HTML(code int, name string, data any) {
+	if context.templates == nil {
+		http.Error(context.Writer, "Templates not loaded", http.StatusInternalServerError)
 		return
 	}
 	var buf bytes.Buffer
-	if err := c.templates.ExecuteTemplate(&buf, name, data); err != nil {
+	if err := context.templates.ExecuteTemplate(&buf, name, data); err != nil {
 		log.Printf("Template error (%s): %v", name, err)
-		http.Error(c.W, "Template Error: "+err.Error(), http.StatusInternalServerError)
+		http.Error(context.Writer, "Template Error: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
-	c.W.Header().Set("Content-Type", "text/html; charset=utf-8")
-	c.W.WriteHeader(code)
-	buf.WriteTo(c.W)
+	context.Writer.Header().Set("Content-Type", "text/html; charset=utf-8")
+	context.Writer.WriteHeader(code)
+	buf.WriteTo(context.Writer)
 }

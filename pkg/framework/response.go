@@ -1,6 +1,11 @@
 package framework
 
-import "net/http"
+import (
+	"bufio"
+	"fmt"
+	"net"
+	"net/http"
+)
 
 type StatusRecorder struct {
 	http.ResponseWriter
@@ -31,4 +36,11 @@ func (r *StatusRecorder) Write(b []byte) (int, error) {
 
 func (r *StatusRecorder) Unwrap() http.ResponseWriter {
 	return r.ResponseWriter
+}
+
+func (r *StatusRecorder) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+	if hj, ok := r.ResponseWriter.(http.Hijacker); ok {
+		return hj.Hijack()
+	}
+	return nil, nil, fmt.Errorf("underlying ResponseWriter does not implement http.Hijacker")
 }

@@ -11,8 +11,9 @@ import (
 )
 
 type JSConfig struct {
-	SourceDir string
-	OutputDir string
+	SourceDir   string
+	OutputDir   string
+	EntryPoints []string
 }
 
 type JSCompiler struct {
@@ -32,9 +33,19 @@ func (c *JSCompiler) Bundle() error {
 		os.MkdirAll(c.config.OutputDir, 0755)
 	}
 
-	inputFile := filepath.Join(c.config.SourceDir, "main.js")
-	outputFile := filepath.Join(c.config.OutputDir, "main.js")
-	cmd := exec.Command("esbuild", inputFile, "--bundle", "--minify", "--sourcemap", "--outfile="+outputFile)
+	entries := c.config.EntryPoints
+	if len(entries) == 0 {
+		entries = []string{"main.js"}
+	}
+
+	var inputFiles []string
+	for _, entry := range entries {
+		inputFiles = append(inputFiles, filepath.Join(c.config.SourceDir, entry))
+	}
+
+	args := append(inputFiles, "--bundle", "--minify", "--sourcemap", "--format=esm", "--splitting", "--outdir="+c.config.OutputDir)
+
+	cmd := exec.Command("esbuild", args...)
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {

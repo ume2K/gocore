@@ -3,7 +3,10 @@ package framework
 import (
 	"context"
 	"html/template"
+	"io/fs"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -62,7 +65,6 @@ func (r *Router) handleNotFound(w http.ResponseWriter, req *http.Request) {
 }
 
 func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-	// 1. Static Files
 	for prefix, handler := range r.staticHandlers {
 		if strings.HasPrefix(req.URL.Path, prefix) {
 			handler.ServeHTTP(w, req)
@@ -70,7 +72,6 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	// 2. Trie Lookup
 	root, ok := r.roots[req.Method]
 	if !ok {
 		r.handleNotFound(w, req)
@@ -85,7 +86,6 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// 3. Context
 	ctx := req.Context()
 	for k, v := range params {
 		ctx = context.WithValue(ctx, k, v)
@@ -110,7 +110,47 @@ func (r *Router) LoadHTMLGlob(pattern string) {
 	if r.templates == nil {
 		r.templates = template.New("").Funcs(r.funcMap)
 	}
-	_, err := r.templates.ParseGlob(pattern)
+
+	rootDir := filepath.Clean(pattern)
+	rootDir = strings.TrimSuffix(rootDir, "*.html")
+	rootDir = strings.TrimSuffix(rootDir, "*")
+	rootDir = strings.TrimSuffix(rootDir, string(filepath.Separator))
+	if rootDir == "" {
+		rootDir = "."
+	}
+
+	err := filepath.WalkDir(rootDir, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if !d.IsDir() && strings.HasSuffix(d.Name(), ".html") {
+			relPath, err := filepath.Rel(rootDir, path)
+			if err != nil {
+				return err
+			}
+
+			templateName := filepath.ToSlash(relPath)
+			content, err := os.ReadFile(path)
+			if err != nil {
+				return err
+			}
+
+			_, err = r.templates.New(templateName).Parse(string(content))
+			if err != nil {
+				return err
+			}
+
+			if templateName != d.Name() {
+				_, err = r.templates.New(d.Name()).Parse(string(content))
+				if err != nil {
+					return err
+				}
+			}
+		}
+		return nil
+	})
+
 	if err != nil {
 		panic(err)
 	}
