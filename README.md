@@ -6,27 +6,27 @@ A lightweight, opinionated Go web framework with a custom radix-trie router, mid
 
 * **Custom Trie Router:** Fast route matching with path parameters (`:param`), route grouping, and configurable 404 handlers.
 
-* **Recursive Template Discovery:** Automatic directory walking that registers templates by both relative subpath (e.g., `episodes/vietnam/vietnam.html`) and flat base filename.
-
-* **Modern Asset Pipeline:** Development-time SCSS (Dart Sass) and JS (esbuild) bundling with multi-entrypoint support, ESM format, and code splitting.
+* **Context Handlers:** Unified request context and convenience responders via `func(c *framework.Context)`.
 
 * **WebSocket & Protocol Upgrade Support:** `StatusRecorder` implements `http.Hijacker` so request logging and recovery middleware do not disrupt WebSockets or SSE connections.
 
+* **Modern Asset Pipeline:** Development-time SCSS (Dart Sass) and JS (esbuild) bundling with multi-entrypoint support, ESM format, and code splitting.
+
+* **Recursive Template Discovery:** Automatic directory walking that registers templates by both relative subpath (e.g., `episodes/vietnam/vietnam.html`) and flat base filename.
+
 * **Live Reload:** Instant rebuilds in development via Air, paired with background `fsnotify` file watchers for frontend assets.
 
-* **Production Ready:** Multi-stage Docker build producing a minimal container with pre-compiled, optimized static assets.
-
-* **Context Handlers:** Unified request context and convenience responders via `func(c *framework.Context)`.
+* * **Production Ready:** Multi-stage Docker build producing a minimal container with pre-compiled, optimized static assets.
 
 ## Layout
 
 ```text
-gocore-framework/
+gocore/
 ├── assets/
 │   ├── js/             # JS sources; configurable entry points (e.g., main.js, ...)
 │   └── scss/           # SCSS sources; main.scss entrypoint and partials
-├── cmd/server/         # Application entrypoint (main.go)
-├── pkg/framework/      # Router, Context, compilers, and middleware
+├── cmd/server/         # Application entrypoint and route definitions (main.go)
+├── pkg/framework/      # Router, context, compilers and middleware
 ├── public/             # Compiled CSS/JS and static assets, served at /assets
 │   ├── css/
 │   ├── js/
@@ -38,34 +38,7 @@ gocore-framework/
 
 ```
 
-## Assets (Images, SCSS & JS)
-
-### Images
-
-* **Storage:** Place raw images in `public/images/`.
-
-* **Routing:** Access images via `/assets/images/...` (the router maps `/assets` to `./public`).
-
-  * HTML: `<img src="/assets/images/logo.png" alt="Logo">`
-
-  * SCSS: `background-image: url('/assets/images/bg.jpg');`
-
-### SCSS Compilation
-
-* **Entrypoint:** The compiler processes `assets/scss/main.scss`.
-
-* **Partials:** Organize modular partials using an underscore prefix (e.g., `assets/scss/components/_nav.scss`).
-
-* **Imports:** Reference partials without the leading underscore or `.scss` extension:
-
-  ```
-  // assets/scss/main.scss
-  @import 'variables';
-  @import 'utils';
-  @import 'components/nav';
-  @import 'pages/home';
-  
-  ```
+## Assets (JS, SCSS & Images)
 
 ### JavaScript Bundler
 
@@ -82,16 +55,44 @@ gocore-framework/
       EntryPoints: []string{
           "main.js",
           "components/whiteboard.js",
+          ...
       },
   })
   
   ```
 
+  ### SCSS Compilation
+
+* **Entrypoint:** The compiler processes `assets/scss/main.scss`.
+
+* **Partials:** Organize modular partials using an underscore prefix (e.g., `assets/scss/components/_nav.scss`).
+
+* **Imports:** Reference partials without the leading underscore or `.scss` extension:
+
+  ```
+  // assets/scss/main.scss
+  @import 'variables';
+  @import 'utils';
+  @import 'components/nav';
+  @import 'pages/home';
+  
+  ```
+
+  ### Images
+
+* **Storage:** Place raw images in `public/images/`.
+
+* **Routing:** Access images via `/assets/images/...`.
+
+  * HTML: `<img src="/assets/images/logo.png" alt="Logo">`
+
+  * SCSS: `background-image: url('/assets/images/bg.jpg');`
+
 ## HTML Templates & Components
 
-Call `r.LoadHTMLGlob("views")` once during initialization. The engine recursively walks the directory tree and registers every `.html` file under two keys:
+Function `r.LoadHTMLGlob("views")` gets called once during initialization. The engine recursively walks the directory tree and registers every `.html` file under two keys:
 
-1. **Relative Subpath:** The forward-slash relative path from the root view directory (e.g., `episodes/vietnam/vietnam.html` or `components/card.html`). Use this to isolate templates and prevent naming collisions across nested modules.
+1. **Relative Subpath:** The forward-slash relative path from the root view directory (e.g., `episodes/vietnam/vietnam.html` or `components/nav.html`). Use this to isolate templates and prevent naming collisions across nested modules.
 
 2. **Base Filename:** The flat filename (e.g., `vietnam.html`, `index.html`), preserved for backward-compatible lookups.
 
@@ -104,11 +105,25 @@ r.GET("/episoden/vietnam", func(c *framework.Context) {
     c.HTML(http.StatusOK, "episodes/vietnam/vietnam.html", PageData{Title: "Vietnam"})
 })
 
+or
+
+r.GET("/episoden/vietnam", func(c *framework.Context) {
+    c.HTML(http.StatusOK, "vietnam.html", PageData{Title: "Vietnam"})
+})
+
 ```
 
 ### Component Partials
 
-Include reusable partials within templates using standard Go template actions:
+Define reusable partials in a template using standard Go template actions:
+
+```
+{{ define "nav" }}
+<!-- inside here the component -->
+{{ end }}
+```
+
+Include defined partials within other templates:
 
 ```
 {{ template "components/nav.html" . }}
@@ -131,7 +146,7 @@ Include reusable partials within templates using standard Go template actions:
 
 ## Quick Start
 
-1. Create your environment configuration:
+1. Copy the example environment configuration to `.env`:
 
    ```
    cp .env.example .env
