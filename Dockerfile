@@ -1,5 +1,5 @@
 # --- Stage 1: Builder ---
-FROM golang:1.25-alpine AS builder
+FROM golang:1.27-alpine AS builder
 
 RUN apk add --no-cache git nodejs npm
 RUN npm install -g sass esbuild
@@ -19,6 +19,8 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o server cmd/server/main
 
 # --- Stage 2: Runtime ---
 FROM scratch
+
+WORKDIR /app
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 

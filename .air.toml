@@ -5,7 +5,8 @@ tmp_dir = "tmp"
   cmd = "go build -o ./tmp/main.exe ./cmd/server/main.go"
   entrypoint = "./tmp/main.exe"
   include_ext = ["go", "tpl", "tmpl", "html"]
-  exclude_dir = ["assets", "tmp", "vendor", "testdata", "public/css"]
+  include_dir = [".", "../gocore"]
+  exclude_dir = ["assets", "tmp", "vendor", "testdata", "public"]
   log = "air_errors.log"
 
 [log]

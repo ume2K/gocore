@@ -3,13 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"gocore/pkg/framework"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/ume2K/gocore/pkg/framework"
 )
 
 type PageData struct {

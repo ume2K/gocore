@@ -7,3 +7,5 @@ tmp/
 .idea
 vendor/
 *.tar
+go.work
+go.work.sum
