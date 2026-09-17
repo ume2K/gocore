@@ -1,6 +1,6 @@
 # GoCore Framework
 
-A lightweight, opinionated Go web framework with a custom radix-trie router, middleware pipeline, recursive HTML template loading, and an integrated **Zero-Config Asset Pipeline** for SCSS and modern JavaScript.
+A lightweight, opinionated Go web framework with a custom radix-trie router, middleware pipeline, recursive HTML template loading, and integrated asset compilation and bundling for SCSS and modern JavaScript.
 
 ## Features
 
@@ -16,7 +16,7 @@ A lightweight, opinionated Go web framework with a custom radix-trie router, mid
 
 * **Live Reload:** Instant rebuilds in development via Air, paired with background `fsnotify` file watchers for frontend assets.
 
-* * **Production Ready:** Multi-stage Docker build producing a minimal container with pre-compiled, optimized static assets.
+* **Production Ready:** Multi-stage Docker build producing a minimal container with pre-compiled, optimized static assets.
 
 ## Layout
 
@@ -35,7 +35,6 @@ gocore/
 ├── Dockerfile
 ├── Makefile
 └── .air.toml
-
 ```
 
 ## Assets (JS, SCSS & Images)
@@ -58,10 +57,9 @@ gocore/
           ...
       },
   })
-  
   ```
 
-  ### SCSS Compilation
+### SCSS Compilation
 
 * **Entrypoint:** The compiler processes `assets/scss/main.scss`.
 
@@ -75,10 +73,9 @@ gocore/
   @import 'utils';
   @import 'components/nav';
   @import 'pages/home';
-  
   ```
 
-  ### Images
+### Images
 
 * **Storage:** Place raw images in `public/images/`.
 
@@ -110,7 +107,6 @@ or
 r.GET("/episoden/vietnam", func(c *framework.Context) {
     c.HTML(http.StatusOK, "vietnam.html", PageData{Title: "Vietnam"})
 })
-
 ```
 
 ### Component Partials
@@ -129,7 +125,6 @@ Include defined partials within other templates:
 {{ template "components/nav.html" . }}
 <!-- or by base name -->
 {{ template "nav.html" . }}
-
 ```
 
 *Note: The trailing dot (`.`) passes the active data context into the partial.*
@@ -150,7 +145,6 @@ Include defined partials within other templates:
 
    ```
    cp .env.example .env
-   
    ```
 
 2. Set configuration values in `.env`:
@@ -159,14 +153,12 @@ Include defined partials within other templates:
    APP_NAME=gocore
    PORT=8080
    APP_ENV=development
-   
    ```
 
 3. Start the development server with live reload:
 
    ```
    make dev
-   
    ```
 
 4. Navigate to `http://localhost:8080`.
@@ -233,7 +225,6 @@ func main() {
 
     http.ListenAndServe(":8080", r)
 }
-
 ```
 
 ## Docker Deployment
@@ -243,7 +234,6 @@ Build and run using the provided production target:
 ```
 make docker-build
 make docker-run
-
 ```
 
 The multi-stage `Dockerfile` compiles SCSS and JavaScript during the build stage; the final deployment image contains only the compiled Go binary, the `views/` folder, and the generated `public/` directory.
